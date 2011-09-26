@@ -5,13 +5,6 @@ using Timer = System.Timers.Timer;
 
 namespace ReliabilityPatterns
 {
-    public enum CircuitBreakerState
-    {
-        Closed,
-        Open,
-        HalfOpen
-    }
-
     public class CircuitBreaker
     {
         readonly Timer timer;
