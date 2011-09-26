@@ -13,17 +13,17 @@ namespace ReliabilityPatterns
         uint threshold;
 
         public CircuitBreaker()
-            : this(5, 60000)
+            : this(5, TimeSpan.FromSeconds(60))
         {
         }
 
-        public CircuitBreaker(uint threshold, uint timeout)
+        public CircuitBreaker(uint threshold, TimeSpan timeout)
         {
             this.threshold = threshold;
             failureCount = 0;
             state = CircuitBreakerState.Closed;
 
-            timer = new Timer(timeout);
+            timer = new Timer(timeout.TotalMilliseconds);
             timer.Elapsed += TimerElapsed;
         }
 
