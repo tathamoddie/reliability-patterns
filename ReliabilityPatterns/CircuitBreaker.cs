@@ -43,12 +43,12 @@ namespace ReliabilityPatterns
         }
 
         /// <summary>
-        /// The time, in milliseconds, before the circuit attempts to close after being tripped.
+        /// The time before the circuit attempts to close after being tripped.
         /// </summary>
-        public uint Timeout
+        public TimeSpan Timeout
         {
-            get { return (uint) timer.Interval; }
-            set { timer.Interval = value; }
+            get { return TimeSpan.FromMilliseconds(timer.Interval); }
+            set { timer.Interval = value.TotalMilliseconds; }
         }
 
         /// <summary>
