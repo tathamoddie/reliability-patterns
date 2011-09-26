@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>ReliabilityPatterns</id>
+    <version>$version$</version>
+    <title>Reliability Patterns</title>
+    <authors>Tatham Oddie</authors>
+    <owners>Tatham Oddie</owners>
+    <projectUrl>http://hg.tath.am/reliability-patterns</projectUrl>
+    <licenseUrl>http://hg.tath.am/reliability-patterns/src/tip/LICENSE</licenseUrl>
+    <description>A set of useful tools for building high reliability applications.</description>
+  </metadata>
+</package>
