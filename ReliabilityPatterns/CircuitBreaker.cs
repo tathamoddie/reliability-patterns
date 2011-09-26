@@ -7,7 +7,7 @@ namespace ReliabilityPatterns
 {
     public class CircuitBreaker
     {
-        readonly Timer timer;
+        readonly Timer resetTimer;
         int failureCount;
         CircuitBreakerState state;
         uint threshold;
@@ -17,14 +17,14 @@ namespace ReliabilityPatterns
         {
         }
 
-        public CircuitBreaker(uint threshold, TimeSpan timeout)
+        public CircuitBreaker(uint threshold, TimeSpan resetTimeout)
         {
             this.threshold = threshold;
             failureCount = 0;
             state = CircuitBreakerState.Closed;
 
-            timer = new Timer(timeout.TotalMilliseconds);
-            timer.Elapsed += TimerElapsed;
+            resetTimer = new Timer(resetTimeout.TotalMilliseconds);
+            resetTimer.Elapsed += ResetTimerElapsed;
         }
 
         /// <summary>
@@ -45,10 +45,10 @@ namespace ReliabilityPatterns
         /// <summary>
         /// The time before the circuit attempts to close after being tripped.
         /// </summary>
-        public TimeSpan Timeout
+        public TimeSpan ResetTimeout
         {
-            get { return TimeSpan.FromMilliseconds(timer.Interval); }
-            set { timer.Interval = value.TotalMilliseconds; }
+            get { return TimeSpan.FromMilliseconds(resetTimer.Interval); }
+            set { resetTimer.Interval = value.TotalMilliseconds; }
         }
 
         /// <summary>
@@ -131,7 +131,7 @@ namespace ReliabilityPatterns
         {
             if (state == CircuitBreakerState.Open) return;
             ChangeState(CircuitBreakerState.Open);
-            timer.Start();
+            resetTimer.Start();
         }
 
         /// <summary>
@@ -141,7 +141,7 @@ namespace ReliabilityPatterns
         {
             if (state == CircuitBreakerState.Closed) return;
             ChangeState(CircuitBreakerState.Closed);
-            timer.Stop();
+            resetTimer.Stop();
         }
 
         void ChangeState(CircuitBreakerState newState)
@@ -150,11 +150,11 @@ namespace ReliabilityPatterns
             OnCircuitBreakerStateChanged(new EventArgs());
         }
 
-        void TimerElapsed(object sender, ElapsedEventArgs e)
+        void ResetTimerElapsed(object sender, ElapsedEventArgs e)
         {
             if (State != CircuitBreakerState.Open) return;
             ChangeState(CircuitBreakerState.HalfOpen);
-            timer.Stop();
+            resetTimer.Stop();
         }
 
         void OnCircuitBreakerStateChanged(EventArgs e)
