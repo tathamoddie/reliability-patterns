@@ -58,7 +58,7 @@ namespace Tests
             {
                 circuitBreaker.ExecuteWithRetries(() => { actionWasCalled = true; }, 5, TimeSpan.Zero);
             }
-            catch (OpenCircuitException ex)
+            catch (OpenCircuitException)
             {
             }
             Assert.IsFalse(actionWasCalled);
