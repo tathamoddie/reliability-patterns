@@ -42,7 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CircuitBreaker.cs" />
-    <Compile Include="CircuitBreakerExtensions.cs" />
+    <Compile Include="RetryExtensions.cs" />
     <Compile Include="CircuitBreakerState.cs" />
     <Compile Include="OpenCircuitException.cs" />
     <Compile Include="OperationFailedException.cs" />

@@ -51,7 +51,7 @@
   <ItemGroup>
     <Compile Include="CircuitBreakerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RetryTests.cs" />
+    <Compile Include="RetryExtensionsTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

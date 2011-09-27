@@ -6,7 +6,7 @@ using ReliabilityPatterns;
 namespace Tests
 {
     [TestFixture]
-    public class RetryTests
+    public class RetryExtensionsTests
     {
         [Test]
         public void ShouldThrowAggregateExceptionWhenMultipleRetriesFailWithExceptions()

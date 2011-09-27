@@ -5,7 +5,7 @@ using System.Threading;
 
 namespace ReliabilityPatterns
 {
-    public static class CircuitBreakerExtensions
+    public static class RetryExtensions
     {
         public static void ExecuteWithRetries(this CircuitBreaker circuitBreaker, Action operation, ushort allowedRetries, TimeSpan retryInterval)
         {
