@@ -31,5 +31,21 @@ namespace Tests
                 Assert.IsInstanceOf<AggregateException>(ex);
             }
         }
+
+        [Test]
+        public void ShouldThrowOpenCircuitExceptionWhenCircuitBreakerIsOpenTheEntireTime()
+        {
+            var circuitBreaker = new CircuitBreaker(100, TimeSpan.FromHours(1));
+            circuitBreaker.Trip();
+            try
+            {
+                circuitBreaker.ExecuteWithRetries(() => {}, 5, TimeSpan.Zero);
+                Assert.Fail("No exception was thrown");
+            }
+            catch (Exception ex)
+            {
+                Assert.IsInstanceOf<OpenCircuitException>(ex);
+            }
+        }
     }
 }
