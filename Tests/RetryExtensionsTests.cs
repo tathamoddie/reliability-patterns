@@ -47,5 +47,21 @@ namespace Tests
                 Assert.IsInstanceOf<OpenCircuitException>(ex);
             }
         }
+
+        [Test]
+        public void ShouldNotCallActionWhenCircuitBreakerIsOpen()
+        {
+            var circuitBreaker = new CircuitBreaker(100, TimeSpan.FromHours(1));
+            circuitBreaker.Trip();
+            var actionWasCalled = false;
+            try
+            {
+                circuitBreaker.ExecuteWithRetries(() => { actionWasCalled = true; }, 5, TimeSpan.Zero);
+            }
+            catch (OpenCircuitException ex)
+            {
+            }
+            Assert.IsFalse(actionWasCalled);
+        }
     }
 }
