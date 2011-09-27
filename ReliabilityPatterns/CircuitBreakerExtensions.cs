@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 
 namespace ReliabilityPatterns
@@ -8,14 +10,21 @@ namespace ReliabilityPatterns
         public static void ExecuteWithRetries(this CircuitBreaker circuitBreaker, Action operation, ushort allowedRetries, TimeSpan retryInterval)
         {
             var attempts = 0;
+            var exceptions = new List<Exception>();
             Action<Exception> handleFailure = ex =>
             {
                 attempts++;
+
+                if (ex != null) exceptions.Add(ex);
+
                 if (attempts >= allowedRetries)
                 {
-                    throw ex ??
-                        new OpenCircuitException("The operation exhausted all possible retry opportunities while waiting for the circuit breaker to close.");
+                    if (exceptions.Any())
+                        throw new AggregateException("The operation exhausted all possible retry opportunities.", exceptions);
+
+                    throw new OperationFailedException("The operation exhausted all possible retry opportunities.", ex);
                 }
+
                 Thread.Sleep(retryInterval);
             };
             while (attempts < allowedRetries)
