@@ -52,16 +52,14 @@ namespace ReliabilityPatterns
         }
 
         /// <summary>
-        /// The current service level of the circuit.
+        /// The current service level of the circuit represented as as percentage.
+        /// 0 means it's offline. 100 means everything is ok.
         /// </summary>
         public double ServiceLevel
         {
             get { return ((threshold - (double) failureCount)/threshold)*100; }
         }
 
-        /// <summary>
-        /// Current state of the circuit breaker.
-        /// </summary>
         public CircuitBreakerState State
         {
             get { return state; }
@@ -125,7 +123,8 @@ namespace ReliabilityPatterns
         }
 
         /// <summary>
-        /// Trips the circuit breaker if not already open.
+        /// Trips the circuit breaker. If the circuit breaker is already open,
+        /// this method has no effect.
         /// </summary>
         public void Trip()
         {
@@ -135,7 +134,8 @@ namespace ReliabilityPatterns
         }
 
         /// <summary>
-        /// Resets the circuit breaker.
+        /// Resets the circuit breaker. If the circuit breaker is already closed,
+        /// this method has no effect.
         /// </summary>
         public void Reset()
         {
