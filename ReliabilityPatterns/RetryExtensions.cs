@@ -22,7 +22,7 @@ namespace ReliabilityPatterns
                     if (exceptions.Any())
                         throw new AggregateException("The operation exhausted all possible retry opportunities.", exceptions);
 
-                    throw new OperationFailedException("The operation exhausted all possible retry opportunities.", ex);
+                    throw new OpenCircuitException("The operation exhausted all possible retry opportunities while waiting for the circuit breaker to close (it was in the open state for every attempt).");
                 }
 
                 Thread.Sleep(retryInterval);
