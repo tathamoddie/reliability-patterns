@@ -13,7 +13,8 @@ namespace ReliabilityPatterns
                 attempts++;
                 if (attempts >= allowedRetries)
                 {
-                    throw ex ?? new ApplicationException("The circuit breaker never closed. Gave up waiting.");
+                    throw ex ??
+                        new OpenCircuitException("The operation exhausted all possible retry opportunities while waiting for the circuit breaker to close.");
                 }
                 Thread.Sleep(retryInterval);
             };
