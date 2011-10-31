@@ -1,1 +1,5 @@
+A circuit breaker implementation for .NET.
+
+Available on NuGet: http://nuget.org/List/Packages/ReliabilityPatterns
+
 Heavily influenced by Tim Ross' implementation at http://l.tath.am/tFPwee
