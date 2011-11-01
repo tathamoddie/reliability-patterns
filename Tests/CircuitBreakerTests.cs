@@ -8,6 +8,17 @@ namespace Tests
     public class CircuitBreakerTests
     {
         [Test]
+        public void ExecuteShouldExecuteActionOnce()
+        {
+            var circuitBreaker = new CircuitBreaker();
+            var actionCallCount = 0;
+
+            circuitBreaker.Execute(() => { actionCallCount++; });
+
+            Assert.AreEqual(1, actionCallCount);
+        }
+
+        [Test]
         public void ExecuteWithResultShouldReturnResult()
         {
             var circuitBreaker = new CircuitBreaker();
