@@ -128,7 +128,7 @@ namespace ReliabilityPatterns
 
         public void Execute(Action operation)
         {
-            Execute<dynamic>(() =>
+            Execute<object>(() =>
             {
                 operation();
                 return null;
