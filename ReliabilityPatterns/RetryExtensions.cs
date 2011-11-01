@@ -20,8 +20,10 @@ namespace ReliabilityPatterns
                     });
         }
 
-        public static void ExecuteWithRetries(this CircuitBreaker circuitBreaker, Action operation, RetryOptions retryOptions)
+        public static void ExecuteWithRetries(this CircuitBreaker circuitBreaker, Action operation, RetryOptions retryOptions = null)
         {
+            retryOptions = retryOptions ?? new RetryOptions();
+
             var attempts = 0;
             var exceptions = new List<Exception>();
             Action<Exception> handleFailure = ex =>
