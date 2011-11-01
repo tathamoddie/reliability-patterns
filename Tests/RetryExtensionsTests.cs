@@ -16,8 +16,7 @@ namespace Tests
             {
                 circuitBreaker.ExecuteWithRetries(
                     () => { throw new Exception("foo"); },
-                    5,
-                    TimeSpan.Zero);
+                    new RetryOptions { AllowedRetries = 5, RetryInterval = TimeSpan.Zero });
 
                 Assert.Fail("No exception was thrown");
             }
@@ -39,7 +38,9 @@ namespace Tests
             circuitBreaker.Trip();
             try
             {
-                circuitBreaker.ExecuteWithRetries(() => {}, 5, TimeSpan.Zero);
+                circuitBreaker.ExecuteWithRetries(
+                    () => { },
+                    new RetryOptions { AllowedRetries = 5, RetryInterval = TimeSpan.Zero });
                 Assert.Fail("No exception was thrown");
             }
             catch (Exception ex)
@@ -56,7 +57,9 @@ namespace Tests
             var actionWasCalled = false;
             try
             {
-                circuitBreaker.ExecuteWithRetries(() => { actionWasCalled = true; }, 5, TimeSpan.Zero);
+                circuitBreaker.ExecuteWithRetries(
+                    () => { actionWasCalled = true; },
+                    new RetryOptions { AllowedRetries = 5, RetryInterval = TimeSpan.Zero });
             }
             catch (OpenCircuitException)
             {
