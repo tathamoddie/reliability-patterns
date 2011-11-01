@@ -7,7 +7,7 @@ namespace ReliabilityPatterns
 {
     public static class RetryExtensions
     {
-        [Obsolete("Use the overload which accepts a RetryOptions instance instead.")]
+        [Obsolete("Use the overload which accepts a RetryOptions instance instead. This overload will be removed in a future build.")]
         public static void ExecuteWithRetries(this CircuitBreaker circuitBreaker, Action operation, ushort allowedRetries, TimeSpan retryInterval)
         {
             ExecuteWithRetries(
