@@ -4,4 +4,6 @@ Documented at http://l.tath.am/reliability-patterns
 
 Available on NuGet: http://nuget.org/List/Packages/ReliabilityPatterns
 
+CI build at http://teamcity.tath.am/project.html?projectId=project10 (just click 'Login as Guest')
+
 Heavily influenced by Tim Ross' implementation at http://l.tath.am/tFPwee
