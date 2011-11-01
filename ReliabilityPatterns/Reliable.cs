@@ -9,16 +9,14 @@ namespace ReliabilityPatterns
             CircuitBreaker circuitBreaker,
             IEnumerable<TSource> source,
             Action<TSource> body,
-            ushort allowedRetriesPerElement,
-            TimeSpan retryInterval)
+            RetryOptions retryOptions = null)
         {
             foreach (var element in source)
             {
                 var element1 = element;
                 circuitBreaker.ExecuteWithRetries(
                     () => body(element1),
-                    allowedRetriesPerElement,
-                    retryInterval);
+                    retryOptions);
             }
         }
     }
