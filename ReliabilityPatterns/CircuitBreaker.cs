@@ -73,15 +73,17 @@ namespace ReliabilityPatterns
         public event EventHandler StateChanged;
         public event EventHandler ServiceLevelChanged;
 
-        public void Execute(Action operation)
+        public TResult Execute<TResult>(Func<TResult> operation)
         {
             if (state == CircuitBreakerState.Open)
                 throw new OpenCircuitException("Circuit breaker is currently open");
 
+            TResult result;
+
             try
             {
                 // Execute operation
-                operation();
+                result = operation();
             }
             catch (Exception ex)
             {
@@ -120,6 +122,17 @@ namespace ReliabilityPatterns
 
                 OnServiceLevelChanged(new EventArgs());
             }
+
+            return result;
+        }
+
+        public void Execute(Action operation)
+        {
+            Execute<dynamic>(() =>
+            {
+                operation();
+                return null;
+            });
         }
 
         /// <summary>
