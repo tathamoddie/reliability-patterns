@@ -8,6 +8,17 @@ namespace Tests
     public class CircuitBreakerTests
     {
         [Test]
+        public void ExecuteWithResultShouldReturnResult()
+        {
+            var circuitBreaker = new CircuitBreaker();
+            var expectedResult = new object();
+
+            var result = circuitBreaker.Execute(() => expectedResult);
+
+            Assert.AreEqual(expectedResult, result);
+        }
+
+        [Test]
         [TestCase("", Result = 100d)]
         [TestCase("bad", Result = 80d)]
         [TestCase("bad good", Result = 100d)]
