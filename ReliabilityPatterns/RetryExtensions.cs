@@ -7,7 +7,20 @@ namespace ReliabilityPatterns
 {
     public static class RetryExtensions
     {
+        [Obsolete("Use the overload which accepts a RetryOptions instance instead.")]
         public static void ExecuteWithRetries(this CircuitBreaker circuitBreaker, Action operation, ushort allowedRetries, TimeSpan retryInterval)
+        {
+            ExecuteWithRetries(
+                circuitBreaker,
+                operation,
+                new RetryOptions
+                    {
+                        AllowedRetries = allowedRetries,
+                        RetryInterval = retryInterval
+                    });
+        }
+
+        public static void ExecuteWithRetries(this CircuitBreaker circuitBreaker, Action operation, RetryOptions retryOptions)
         {
             var attempts = 0;
             var exceptions = new List<Exception>();
@@ -17,7 +30,7 @@ namespace ReliabilityPatterns
 
                 if (ex != null) exceptions.Add(ex);
 
-                if (attempts >= allowedRetries)
+                if (attempts >= retryOptions.AllowedRetries)
                 {
                     if (exceptions.Any())
                         throw new AggregateException("The operation exhausted all possible retry opportunities.", exceptions);
@@ -25,9 +38,9 @@ namespace ReliabilityPatterns
                     throw new OpenCircuitException("The operation exhausted all possible retry opportunities while waiting for the circuit breaker to close (it was in the open state for every attempt).");
                 }
 
-                Thread.Sleep(retryInterval);
+                Thread.Sleep(retryOptions.RetryInterval);
             };
-            while (attempts < allowedRetries)
+            while (attempts < retryOptions.AllowedRetries)
             {
                 try
                 {
