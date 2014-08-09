@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Timers;
 using Timer = System.Timers.Timer;
 
@@ -59,7 +60,7 @@ namespace ReliabilityPatterns
         {
             get { return ((threshold - (double) failureCount)/threshold)*100; }
         }
-
+			
         public CircuitBreakerState State
         {
             get { return state; }
@@ -73,67 +74,88 @@ namespace ReliabilityPatterns
         public event EventHandler StateChanged;
         public event EventHandler ServiceLevelChanged;
 
+		/// <summary>
+		/// Execute the operation "protected" by the circuit breaker.
+		/// </summary>
+		/// <returns>The operation result.</returns>
+		/// <param name="operation">Operation to execute.</param>
+		/// <typeparam name="TResult">The underlying operation return type.</typeparam>
         public TResult Execute<TResult>(Func<TResult> operation)
-        {
-            if (state == CircuitBreakerState.Open)
-                throw new OpenCircuitException("Circuit breaker is currently open");
-
+		{
+			EnsureNotOpen ();
+      
             TResult result;
 
             try
             {
                 // Execute operation
                 result = operation();
+
+				OperationSucceeded ();
+
+				return result;
             }
             catch (Exception ex)
             {
-                if (state == CircuitBreakerState.HalfOpen)
-                {
-                    // Operation failed in a half-open state, so reopen circuit
-                    Trip();
-                }
-                else if (failureCount < threshold)
-                {
-                    // Operation failed in an open state, so increment failure count and throw exception
-                    Interlocked.Increment(ref failureCount);
-
-                    OnServiceLevelChanged(new EventArgs());
-                }
-                else if (failureCount >= threshold)
-                {
-                    // Failure count has reached threshold, so trip circuit breaker
-                    Trip();
-                }
-
-                throw new OperationFailedException("Operation failed", ex);
+				OperationFailed (ex);
+				throw new OperationFailedException("Operation failed", ex);
             }
-
-            if (state == CircuitBreakerState.HalfOpen)
-            {
-                // If operation succeeded without error and circuit breaker 
-                // is in a half-open state, then reset
-                Reset();
-            }
-
-            if (failureCount > 0)
-            {
-                // Decrement failure count to improve service level
-                Interlocked.Decrement(ref failureCount);
-
-                OnServiceLevelChanged(new EventArgs());
-            }
-
-            return result;
         }
 
-        public void Execute(Action operation)
-        {
-            Execute<object>(() =>
-            {
-                operation();
-                return null;
-            });
-        }
+		/// <summary>
+		/// Execute the operation "protected" by the circuit breaker.
+		/// </summary>
+		/// <param name="operation">Operation to execute.</param>
+		public void Execute(Action operation)
+		{
+			Execute<object>(() =>
+			{
+				operation();
+				return null;
+			});
+		}
+
+
+		/// <summary>
+		/// Execute an async operation "protected" by the circuit breaker and return an awaitable task.
+		/// </summary>
+		/// <returns>An awaitable task with the operation result.</returns>
+		/// <param name="operation">Operation to execute.</param>
+		/// <typeparam name="TResult">The underlying operation return type.</typeparam>
+		public async Task<TResult> ExecuteAsync<TResult>(Func<Task<TResult>> operation)
+		{
+			EnsureNotOpen();
+
+			TResult result;
+
+			try
+			{
+				// Execute operation
+				result = await operation();
+
+				OperationSucceeded();
+
+				return result;
+			}
+			catch (Exception ex)
+			{
+				OperationFailed (ex);
+				throw new OperationFailedException("Operation failed", ex);
+			}
+		}
+
+		/// <summary>
+		/// Execute an async operation "protected" by the circuit breaker and return an awaitable task.
+		/// </summary>
+		/// <returns>Awaitable task.</returns>
+		/// <param name="operation">Operation to execute.</param>
+		public async Task ExecuteAsync(Func<Task> operation)
+		{
+			await ExecuteAsync<Task<object>> (async () => {
+				await operation();
+				return null;
+			});
+		}
 
         /// <summary>
         /// Trips the circuit breaker. If the circuit breaker is already open,
@@ -181,5 +203,50 @@ namespace ReliabilityPatterns
             if (ServiceLevelChanged != null)
                 ServiceLevelChanged(this, e);
         }
+
+		void EnsureNotOpen()
+		{
+			if (state == CircuitBreakerState.Open)
+				throw new OpenCircuitException("Circuit breaker is currently open");
+		}
+
+		void OperationFailed(Exception ex)
+		{
+			if (state == CircuitBreakerState.HalfOpen)
+			{
+				// Operation failed in a half-open state, so reopen circuit
+				Trip();
+			}
+			else if (failureCount < threshold)
+			{
+				// Operation failed in an open state, so increment failure count and throw exception
+				Interlocked.Increment(ref failureCount);
+
+				OnServiceLevelChanged(new EventArgs());
+			}
+			else if (failureCount >= threshold)
+			{
+				// Failure count has reached threshold, so trip circuit breaker
+				Trip();
+			}
+		}
+
+		void OperationSucceeded()
+		{
+			if (state == CircuitBreakerState.HalfOpen)
+			{
+				// If operation succeeded without error and circuit breaker 
+				// is in a half-open state, then reset
+				Reset();
+			}
+
+			if (failureCount > 0)
+			{
+				// Decrement failure count to improve service level
+				Interlocked.Decrement(ref failureCount);
+
+				OnServiceLevelChanged(new EventArgs());
+			}
+		}
     }
 }
