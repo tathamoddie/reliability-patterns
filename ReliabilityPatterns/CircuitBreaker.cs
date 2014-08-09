@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Timers;
 using Timer = System.Timers.Timer;
-using System.Threading.Tasks;
 
 namespace ReliabilityPatterns
 {
@@ -60,7 +60,7 @@ namespace ReliabilityPatterns
         {
             get { return ((threshold - (double) failureCount)/threshold)*100; }
         }
-
+			
         public CircuitBreakerState State
         {
             get { return state; }
@@ -74,6 +74,12 @@ namespace ReliabilityPatterns
         public event EventHandler StateChanged;
         public event EventHandler ServiceLevelChanged;
 
+		/// <summary>
+		/// Execute the operation "protected" by the circuit breaker.
+		/// </summary>
+		/// <returns>The operation result.</returns>
+		/// <param name="operation">Operation to execute.</param>
+		/// <typeparam name="TResult">The underlying operation return type.</typeparam>
         public TResult Execute<TResult>(Func<TResult> operation)
 		{
 			EnsureNotOpen ();
@@ -96,9 +102,29 @@ namespace ReliabilityPatterns
             }
         }
 
+		/// <summary>
+		/// Execute the operation "protected" by the circuit breaker.
+		/// </summary>
+		/// <param name="operation">Operation to execute.</param>
+		public void Execute(Action operation)
+		{
+			Execute<object>(() =>
+			{
+				operation();
+				return null;
+			});
+		}
+
+
+		/// <summary>
+		/// Execute an async operation "protected" by the circuit breaker and return an awaitable task.
+		/// </summary>
+		/// <returns>An awaitable task with the operation result.</returns>
+		/// <param name="operation">Operation to execute.</param>
+		/// <typeparam name="TResult">The underlying operation return type.</typeparam>
 		public async Task<TResult> ExecuteAsync<TResult>(Func<Task<TResult>> operation)
 		{
-			EnsureNotOpen ();
+			EnsureNotOpen();
 
 			TResult result;
 
@@ -107,7 +133,7 @@ namespace ReliabilityPatterns
 				// Execute operation
 				result = await operation();
 
-				OperationSucceeded ();
+				OperationSucceeded();
 
 				return result;
 			}
@@ -118,22 +144,18 @@ namespace ReliabilityPatterns
 			}
 		}
 
+		/// <summary>
+		/// Execute an async operation "protected" by the circuit breaker and return an awaitable task.
+		/// </summary>
+		/// <returns>Awaitable task.</returns>
+		/// <param name="operation">Operation to execute.</param>
 		public async Task ExecuteAsync(Func<Task> operation)
 		{
 			await ExecuteAsync<Task<object>> (async () => {
-				await operation ();
+				await operation();
 				return null;
 			});
 		}
-
-        public void Execute(Action operation)
-        {
-            Execute<object>(() =>
-            {
-                operation();
-                return null;
-            });
-        }
 
         /// <summary>
         /// Trips the circuit breaker. If the circuit breaker is already open,
@@ -207,7 +229,6 @@ namespace ReliabilityPatterns
 				// Failure count has reached threshold, so trip circuit breaker
 				Trip();
 			}
-
 		}
 
 		void OperationSucceeded()
@@ -227,6 +248,5 @@ namespace ReliabilityPatterns
 				OnServiceLevelChanged(new EventArgs());
 			}
 		}
-
     }
 }

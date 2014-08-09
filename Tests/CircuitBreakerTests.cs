@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using NUnit.Framework;
 using ReliabilityPatterns;
-using System.Threading.Tasks;
 
 namespace Tests
 {
@@ -77,6 +79,7 @@ namespace Tests
 				var circuitBreaker = new CircuitBreaker ();
 
 				foreach (var call in callPattern.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)) {
+
 					switch (call) {
 					case "good":
 						await circuitBreaker.ExecuteAsync (async () => {
@@ -101,6 +104,56 @@ namespace Tests
 			});
 
 			return task.Result;
+		}
+			
+		[Test]
+		public void WhenExecutingAsyncTresholdMayBeExceeded()
+		{
+			int totalTasks = 10;
+			uint threshold = 2;
+
+			var circuitBreaker = new CircuitBreaker (threshold, TimeSpan.FromHours(1));
+
+			int operationFailed = 0;
+			int operationFailedExceptions = 0;
+			int openCircuitExceptions = 0;
+
+			Task[] tasks = new Task[totalTasks];
+
+			for (int i = 0; i < totalTasks; i++) 
+			{
+				tasks[i] = Task.Run(async () => {
+					await circuitBreaker.ExecuteAsync (async () => {
+						await Task.FromResult(0);
+						await Task.Delay(1);
+						Interlocked.Increment(ref operationFailed);
+						throw new Exception();
+					});
+				});
+			}
+
+			// wait all tasks not throwing errors
+			try
+			{
+				Task.WaitAll(tasks);
+			}
+			catch (AggregateException ae)
+			{
+				openCircuitExceptions = ae.InnerExceptions.Count(c => c is OpenCircuitException);
+				operationFailedExceptions = ae.InnerExceptions.Count(c => c is OperationFailedException);
+			}
+
+			int openCircuitCount = totalTasks - operationFailed;
+
+			// pretty sure circuit is open at this stage
+			Assert.IsFalse(circuitBreaker.AllowedToAttemptExecute);
+
+			Assert.AreEqual(openCircuitCount, openCircuitExceptions);
+			Assert.AreEqual(operationFailed, operationFailedExceptions);
+
+			// however several arriving requests might have entered the curcuit
+			// before the previous one's failures were tracked!
+			Assert.GreaterOrEqual(operationFailed, threshold);
 		}
     }
 }
