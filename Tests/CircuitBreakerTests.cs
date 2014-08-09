@@ -1,6 +1,7 @@
 ﻿using System;
 using NUnit.Framework;
 using ReliabilityPatterns;
+using System.Threading.Tasks;
 
 namespace Tests
 {
@@ -60,5 +61,46 @@ namespace Tests
 
             return circuitBreaker.ServiceLevel;
         }
+
+		[Test]
+		[TestCase("", Result = 100d)]
+		[TestCase("bad", Result = 80d)]
+		[TestCase("bad good", Result = 100d)]
+		[TestCase("bad bad", Result = 60d)]
+		[TestCase("bad bad good", Result = 80d)]
+		[TestCase("bad bad good good", Result = 100d)]
+		[TestCase("bad good bad good", Result = 100d)]
+		public double ServiceLevelAsync(string callPattern)
+		{
+			var task = Task.Run<double>(async () => {
+
+				var circuitBreaker = new CircuitBreaker ();
+
+				foreach (var call in callPattern.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)) {
+					switch (call) {
+					case "good":
+						await circuitBreaker.ExecuteAsync (async () => {
+							await Task.FromResult (0);
+						});
+						break;
+					case "bad":
+						try { 
+							await circuitBreaker.ExecuteAsync (async () => {
+								await Task.FromResult (0);
+								throw new Exception ();
+							}); 
+						} catch (OperationFailedException) {
+						}
+						break;
+					default:
+						Assert.Fail ("Unknown call sequence");
+						break;
+					}
+				}
+				return circuitBreaker.ServiceLevel;
+			});
+
+			return task.Result;
+		}
     }
 }
