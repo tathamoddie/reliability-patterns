@@ -60,5 +60,27 @@ namespace Tests
 
             return circuitBreaker.ServiceLevel;
         }
+
+        [Test]
+        public void Execute_WhenThresholdIsSetTo4AndCalledWith4FailingActions_ShouldInvokeEachActionOnceAndTheCircuitBreakerShouldFinishOpen()
+        {
+            var testHelper = new CircuitBreakerTestHelper(4);
+
+            testHelper.ExecuteFailingAction();
+            Assert.AreEqual(1, testHelper.CallCount);
+            Assert.AreEqual(CircuitBreakerState.Closed, testHelper.Breaker.State);
+
+            testHelper.ExecuteFailingAction();
+            Assert.AreEqual(1, testHelper.CallCount);
+            Assert.AreEqual(CircuitBreakerState.Closed, testHelper.Breaker.State);
+
+            testHelper.ExecuteFailingAction();
+            Assert.AreEqual(1, testHelper.CallCount);
+            Assert.AreEqual(CircuitBreakerState.Closed, testHelper.Breaker.State);
+
+            testHelper.ExecuteFailingAction();
+            Assert.AreEqual(1, testHelper.CallCount);
+            Assert.AreEqual(CircuitBreakerState.Open, testHelper.Breaker.State);
+        }
     }
 }

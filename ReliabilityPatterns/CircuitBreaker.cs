@@ -98,6 +98,13 @@ namespace ReliabilityPatterns
                     Interlocked.Increment(ref failureCount);
 
                     OnServiceLevelChanged(new EventArgs());
+
+                    //Re-evalutate the failure count to determine if the breaker should be tripped
+                    if (failureCount >= threshold)
+                    {
+                        // Failure count has reached threshold, so trip circuit breaker
+                        Trip();
+                    }
                 }
                 else if (failureCount >= threshold)
                 {
