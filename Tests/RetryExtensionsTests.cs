@@ -130,5 +130,19 @@ namespace Tests
             }
             Assert.IsFalse(actionWasCalled);
         }
+
+        [Test]
+        public void ExecuteWithRetries_WhenThresholdIsSetTo4AndAllowedRetriesIsSetTo3AndCalledWith2FailingActions_InvokesTheFirstAction3TimesAndInvokesTheSecondAction1TimeAndTheCircuitBreakerShouldFinishOpen()
+        {
+            var testHelper = new CircuitBreakerTestHelper(4, 3);
+
+            testHelper.ExecuteFailingAction();
+            Assert.AreEqual(3, testHelper.CallCount);
+            Assert.AreEqual(CircuitBreakerState.Closed, testHelper.Breaker.State);
+
+            testHelper.ExecuteFailingAction();
+            Assert.AreEqual(1, testHelper.CallCount);
+            Assert.AreEqual(CircuitBreakerState.Open, testHelper.Breaker.State);
+        }
     }
 }

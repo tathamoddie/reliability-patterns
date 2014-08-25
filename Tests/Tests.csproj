@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CircuitBreakerTestHelper.cs" />
     <Compile Include="CircuitBreakerTests.cs" />
     <Compile Include="ReliableParallelForEachTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
