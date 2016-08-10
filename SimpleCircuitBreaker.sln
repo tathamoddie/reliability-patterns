@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CircuitBreaker", "ReliabilityPatterns\CircuitBreaker.csproj", "{017F5933-88BD-4FF3-A62E-7E4838CEBC47}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CircuitBreaker", "CircuitBreaker\CircuitBreaker.csproj", "{017F5933-88BD-4FF3-A62E-7E4838CEBC47}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CircuitBreaker.Tests", "ReliabilityPatterns.Tests\CircuitBreaker.Tests.csproj", "{F0D7FC73-51D5-4B63-A55E-B7B88AED11D8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CircuitBreaker.Tests", "CircuitBreaker.Tests\CircuitBreaker.Tests.csproj", "{F0D7FC73-51D5-4B63-A55E-B7B88AED11D8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
