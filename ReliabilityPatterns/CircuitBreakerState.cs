@@ -1,7 +1,6 @@
 // -----------------------------------------------------------------------------
 // <copyright file="CircuitBreakerState.cs" company="None">
-//   Copyright (c) 2016 Microsoft Public License.
-//   //     Any distribution of source code by others is prohibited.
+//     Copyright (c) 2016 Microsoft Public License.
 // </copyright>
 // <summary>
 //   This file contains the CircuitBreakerState enum.

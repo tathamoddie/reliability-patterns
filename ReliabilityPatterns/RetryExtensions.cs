@@ -1,7 +1,6 @@
 // -----------------------------------------------------------------------------
 // <copyright file="RetryExtensions.cs" company="None">
 //     Copyright (c) 2016 Microsoft Public License.
-//     Any distribution of source code by others is prohibited.
 // </copyright>
 // <summary>
 //     This file contains the RetryExtensions class.
@@ -14,6 +13,8 @@ namespace ReliabilityPatterns
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading;
+
+    using ReliabilityPatterns.Properties;
 
     /// <summary>
     ///     The retry extensions.
@@ -148,12 +149,12 @@ namespace ReliabilityPatterns
                                if (exceptions.Any())
                                {
                                    throw new AggregateException(
-                                       "The operation exhausted all possible retry opportunities.",
+                                       Resource.RetryExtensionsHandleFailureAggregateExceptionMessage,
                                        exceptions);
                                }
 
                                throw new OpenCircuitException(
-                                   "The operation exhausted all possible retry opportunities while waiting for the circuit breaker to close (it was in the open state for every attempt).");
+                                   Resource.RetryExtensionsHandleFailureOpenCircuitExceptionMessage);
                            }
 
                            Thread.Sleep(retryOptions.RetryInterval);

@@ -1,7 +1,6 @@
 ﻿// -----------------------------------------------------------------------------
 // <copyright file="RetryOptions.cs" company="None">
 //     Copyright (c) 2016 Microsoft Public License.
-//     Any distribution of source code by others is prohibited.
 // </copyright>
 // <summary>
 //     This file contains the RetryOptions class.

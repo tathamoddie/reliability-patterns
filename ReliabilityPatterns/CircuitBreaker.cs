@@ -1,7 +1,6 @@
 ﻿// -----------------------------------------------------------------------------
 // <copyright file="CircuitBreaker.cs" company="None">
 //     Copyright (c) 2016 Microsoft Public License.
-//     Any distribution of source code by others is prohibited.
 // </copyright>
 // <summary>
 //     This file contains the CircuitBreaker class.
@@ -13,6 +12,8 @@ namespace ReliabilityPatterns
     using System;
     using System.Threading;
     using System.Timers;
+
+    using ReliabilityPatterns.Properties;
 
     using Timer = System.Timers.Timer;
 
@@ -81,7 +82,7 @@ namespace ReliabilityPatterns
             {
                 if (value <= 0)
                 {
-                    throw new ArgumentException("Threshold must be greater than zero");
+                    throw new ArgumentException(Resource.CircuitBreakerThresholdExceptionMessage);
                 }
 
                 this.threshold = value;
@@ -140,7 +141,7 @@ namespace ReliabilityPatterns
             // Check if the circuit is already open.
             if (this.State == CircuitBreakerState.Open)
             {
-                throw new OpenCircuitException("Circuit breaker is currently open");
+                throw new OpenCircuitException(Resource.CircuitBreakerCurrentlyOpenExceptionMessage);
             }
 
             // Result to eventually return.
@@ -171,7 +172,7 @@ namespace ReliabilityPatterns
                     this.Trip();
                 }
 
-                throw new OperationFailedException("Operation failed", ex);
+                throw new OperationFailedException(Resource.CircuitBreakerOperationFailedExceptionMessage, ex);
             }
 
             if (this.State == CircuitBreakerState.HalfOpen)
