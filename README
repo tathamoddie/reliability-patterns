@@ -1,5 +1,8 @@
 A circuit breaker implementation for .NET.
 
+Forked and updated from Tatham Oddie's Reliability Patterns solution on GitHub:
+https://github.com/tathamoddie/reliability-patterns
+
 Documented at http://l.tath.am/reliability-patterns
 
 Available on NuGet: http://nuget.org/List/Packages/ReliabilityPatterns
