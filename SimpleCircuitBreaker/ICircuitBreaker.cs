@@ -7,7 +7,7 @@
 // </summary>
 // -----------------------------------------------------------------------------
 
-namespace CircuitBreaker
+namespace SimpleCircuitBreaker
 {
     using System;
 

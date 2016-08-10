@@ -7,17 +7,13 @@
 // </summary>
 // -----------------------------------------------------------------------------
 
-namespace ReliabilityPatterns.Tests
+namespace SimpleCircuitBreaker.Tests
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
 
-    using CircuitBreaker;
-
     using NUnit.Framework;
-
-    using ReliabilityPatterns;
 
     /// <summary>
     ///     The reliable for each tests.

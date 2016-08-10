@@ -7,16 +7,12 @@
 // </summary>
 // -----------------------------------------------------------------------------
 
-namespace ReliabilityPatterns.Tests
+namespace SimpleCircuitBreaker.Tests
 {
     using System;
     using System.Linq;
 
-    using CircuitBreaker;
-
     using NUnit.Framework;
-
-    using ReliabilityPatterns;
 
     /// <summary>
     ///     The retry extension tests.

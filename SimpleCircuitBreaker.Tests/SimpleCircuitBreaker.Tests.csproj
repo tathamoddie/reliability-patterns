@@ -8,8 +8,8 @@
     <ProjectGuid>{F0D7FC73-51D5-4B63-A55E-B7B88AED11D8}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ReliabilityPatterns.Tests</RootNamespace>
-    <AssemblyName>ReliabilityPatterns.Tests</AssemblyName>
+    <RootNamespace>SimpleCircuitBreaker.Tests</RootNamespace>
+    <AssemblyName>SimpleCircuitBreaker.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -62,13 +62,13 @@
     <Compile Include="RetryExtensionsTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CircuitBreaker\CircuitBreaker.csproj">
-      <Project>{017F5933-88BD-4FF3-A62E-7E4838CEBC47}</Project>
-      <Name>CircuitBreaker</Name>
-    </ProjectReference>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <ProjectReference Include="..\SimpleCircuitBreaker\SimpleCircuitBreaker.csproj">
+      <Project>{017f5933-88bd-4ff3-a62e-7e4838cebc47}</Project>
+      <Name>SimpleCircuitBreaker</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -7,15 +7,11 @@
 // </summary>
 // -----------------------------------------------------------------------------
 
-namespace ReliabilityPatterns.Tests
+namespace SimpleCircuitBreaker.Tests
 {
     using System;
 
-    using CircuitBreaker;
-
     using NUnit.Framework;
-
-    using ReliabilityPatterns;
 
     /// <summary>
     ///     The circuit breaker tests.

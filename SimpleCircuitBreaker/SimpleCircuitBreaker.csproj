@@ -8,8 +8,8 @@
     <ProjectGuid>{017F5933-88BD-4FF3-A62E-7E4838CEBC47}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CircuitBreaker</RootNamespace>
-    <AssemblyName>CircuitBreaker</AssemblyName>
+    <RootNamespace>SimpleCircuitBreaker</RootNamespace>
+    <AssemblyName>SimpleCircuitBreaker</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -31,7 +31,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\CircuitBreaker.xml</DocumentationFile>
+    <DocumentationFile>bin\Release\SimpleCircuitBreaker.xml</DocumentationFile>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>

@@ -7,7 +7,7 @@
 // </summary>
 // -----------------------------------------------------------------------------
 
-namespace CircuitBreaker
+namespace SimpleCircuitBreaker
 {
     /// <summary>
     ///     The circuit breaker state.

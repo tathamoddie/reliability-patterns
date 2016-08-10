@@ -1,34 +1,34 @@
 ﻿// -----------------------------------------------------------------------------
-// <copyright file="OpenCircuitException.cs" company="None">
+// <copyright file="OperationFailedException.cs" company="None">
 //     Copyright (c) 2016 Microsoft Public License.
 // </copyright>
 // <summary>
-//     This file contains the OpenCircuitException class.
+//     This file contains the OperationFailedException class.
 // </summary>
 // -----------------------------------------------------------------------------
 
-namespace CircuitBreaker
+namespace SimpleCircuitBreaker
 {
     using System;
 
     /// <summary>
-    ///     Exception thrown when an operation is being called on an open circuit.
+    /// Exception thrown when an attempted operation has failed.
     /// </summary>
-    public class OpenCircuitException : ApplicationException
+    public class OperationFailedException : ApplicationException
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="OpenCircuitException"/> class.
+        ///     Initializes a new instance of the <see cref="OperationFailedException"/> class.
         /// </summary>
         /// <param name="message">
         ///     The message.
         /// </param>
-        public OpenCircuitException(string message) 
+        public OperationFailedException(string message) 
             : base(message)
         {
         }
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="OpenCircuitException"/> class.
+        ///     Initializes a new instance of the <see cref="OperationFailedException"/> class.
         /// </summary>
         /// <param name="message">
         ///     The message.
@@ -36,7 +36,7 @@ namespace CircuitBreaker
         /// <param name="innerException">
         ///     The inner exception.
         /// </param>
-        public OpenCircuitException(string message, Exception innerException)
+        public OperationFailedException(string message, Exception innerException)
             : base(message, innerException)
         {
         }

@@ -7,7 +7,7 @@
 // </summary>
 // -----------------------------------------------------------------------------
 
-namespace ReliabilityPatterns.Tests
+namespace SimpleCircuitBreaker.Tests
 {
     using System;
     using System.Collections.Generic;
@@ -15,11 +15,7 @@ namespace ReliabilityPatterns.Tests
     using System.Threading;
     using System.Threading.Tasks;
 
-    using CircuitBreaker;
-
     using NUnit.Framework;
-
-    using ReliabilityPatterns;
 
     /// <summary>
     ///     The reliable parallel for each tests.
