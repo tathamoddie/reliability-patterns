@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>SimpleCircuitBreaker</id>
+    <version>$version$</version>
+    <title>SimpleCircuitBreaker</title>
+    <authors>James Brayton</authors>
+    <authors>Tatham Oddie</authors>
+    <owners>James Brayton</owners>
+    <projectUrl>http://l.tath.am/reliability-patterns</projectUrl>
+    <licenseUrl>http://hg.tath.am/reliability-patterns/src/tip/LICENSE</licenseUrl>
+    <description>A simple .NET circuit breaker with various retry mechanisms.</description>
+  </metadata>
+</package>

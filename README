@@ -1,9 +1,19 @@
-A circuit breaker implementation for .NET.
+A simple circuit breaker implementation for .NET.
 
-Documented at http://l.tath.am/reliability-patterns
++ Forked and updated from Tatham Oddie's Reliability Patterns solution on GitHub: https://github.com/tathamoddie/reliability-patterns
 
-Available on NuGet: http://nuget.org/List/Packages/ReliabilityPatterns
+Taking advantage of the library is as simple as wrapping your outgoing service call with circuitBreaker.Execute:
+```C#
+// Note: you'll need to keep this instance around
+var breaker = new CircuitBreaker();
+ 
+var client = new SmtpClient();
+var message = new MailMessage();
+breaker.Execute(() => client.SendEmail(message));
+```
 
-CI build at http://teamcity.tath.am/project.html?projectId=project10 (just click 'Login as Guest')
+You can also take advantage of built-in retry logic:
 
-Heavily influenced by Tim Ross' implementation at http://l.tath.am/tFPwee
+``C#
+breaker.ExecuteWithRetries(() => client.SendEmail(message), 10, TimeSpan.FromSeconds(20));
+```

@@ -1,6 +1,0 @@
-bin
-obj
-_ReSharper*
-.suo
-.user
-ReliabilityPatterns.*.nupkg
