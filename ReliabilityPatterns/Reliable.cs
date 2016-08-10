@@ -1,11 +1,42 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿// -----------------------------------------------------------------------------
+// <copyright file="Reliable.cs" company="None">
+//     Copyright (c) 2016 Microsoft Public License.
+//     Any distribution of source code by others is prohibited.
+// </copyright>
+// <summary>
+//     This file contains the Reliable class.
+// </summary>
+// -----------------------------------------------------------------------------
 
 namespace ReliabilityPatterns
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+
+    /// <summary>
+    ///     The reliable class.
+    /// </summary>
     public static class Reliable
     {
+        /// <summary>
+        ///     The for each overload.
+        /// </summary>
+        /// <param name="circuitBreaker">
+        ///     The circuit breaker.
+        /// </param>
+        /// <param name="source">
+        ///     The source.
+        /// </param>
+        /// <param name="body">
+        ///     The body of the request.
+        /// </param>
+        /// <param name="retryOptions">
+        ///     The retry options.
+        /// </param>
+        /// <typeparam name="TSource">
+        ///     The type of request.
+        /// </typeparam>
         public static void ForEach<TSource>(
             CircuitBreaker circuitBreaker,
             IEnumerable<TSource> source,
@@ -21,6 +52,27 @@ namespace ReliabilityPatterns
             }
         }
 
+        /// <summary>
+        /// The parallel foreach overload.
+        /// </summary>
+        /// <param name="circuitBreaker">
+        ///     The circuit breaker.
+        /// </param>
+        /// <param name="source">
+        ///     The source.
+        /// </param>
+        /// <param name="body">
+        ///     The body.
+        /// </param>
+        /// <param name="retryOptions">
+        ///     The retry options.
+        /// </param>
+        /// <param name="parallelOptions">
+        ///     The parallel options.
+        /// </param>
+        /// <typeparam name="TSource">
+        ///     The type for the request.
+        /// </typeparam>
         public static void ParallelForEach<TSource>(
             CircuitBreaker circuitBreaker,
             IEnumerable<TSource> source,

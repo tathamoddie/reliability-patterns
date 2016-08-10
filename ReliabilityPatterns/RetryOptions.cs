@@ -1,16 +1,40 @@
-﻿using System;
+﻿// -----------------------------------------------------------------------------
+// <copyright file="RetryOptions.cs" company="None">
+//     Copyright (c) 2016 Microsoft Public License.
+//     Any distribution of source code by others is prohibited.
+// </copyright>
+// <summary>
+//     This file contains the RetryOptions class.
+// </summary>
+// -----------------------------------------------------------------------------
 
 namespace ReliabilityPatterns
 {
+    using System;
+
+    /// <summary>
+    ///     The retry options.
+    /// </summary>
     public class RetryOptions
     {
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="RetryOptions"/> class.
+        /// </summary>
         public RetryOptions()
         {
-            AllowedRetries = 12;
-            RetryInterval = TimeSpan.FromSeconds(5);
+            this.AllowedRetries = 12;
+
+            this.RetryInterval = TimeSpan.FromSeconds(5);
         }
 
+        /// <summary>
+        ///     Gets or sets the number of allowed retries.
+        /// </summary>
         public ushort AllowedRetries { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the retry interval.
+        /// </summary>
         public TimeSpan RetryInterval { get; set; }
     }
 }

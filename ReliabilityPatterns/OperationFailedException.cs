@@ -1,21 +1,42 @@
-﻿using System;
+﻿// -----------------------------------------------------------------------------
+// <copyright file="OperationFailedException.cs" company="None">
+//     Copyright (c) 2016 Microsoft Public License.
+//     Any distribution of source code by others is prohibited.
+// </copyright>
+// <summary>
+//     This file contains the OperationFailedException class.
+// </summary>
+// -----------------------------------------------------------------------------
 
 namespace ReliabilityPatterns
 {
+    using System;
+
     /// <summary>
     /// Exception thrown when an attempted operation has failed.
     /// </summary>
     public class OperationFailedException : ApplicationException
     {
-        public OperationFailedException()
-        {
-        }
-
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="OperationFailedException"/> class.
+        /// </summary>
+        /// <param name="message">
+        ///     The message.
+        /// </param>
         public OperationFailedException(string message) 
             : base(message)
         {
         }
 
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="OperationFailedException"/> class.
+        /// </summary>
+        /// <param name="message">
+        ///     The message.
+        /// </param>
+        /// <param name="innerException">
+        ///     The inner exception.
+        /// </param>
         public OperationFailedException(string message, Exception innerException)
             : base(message, innerException)
         {
