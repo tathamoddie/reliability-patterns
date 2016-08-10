@@ -28,6 +28,11 @@ namespace ReliabilityPatterns
         private readonly Timer resetTimer;
 
         /// <summary>
+        ///     The latency timer.
+        /// </summary>
+        private readonly Timer latencyTimer;
+
+        /// <summary>
         ///     The failure count.
         /// </summary>
         private int failureCount;
@@ -36,6 +41,16 @@ namespace ReliabilityPatterns
         ///     The error threshold before the circuit trips.
         /// </summary>
         private uint threshold;
+
+        /// <summary>
+        ///     The most recent time it took to make a call through the circuit breaker.
+        /// </summary>
+        private TimeSpan latency;
+
+        /// <summary>
+        ///     The average amount of time it takes to make a call through the circuit breaker.
+        /// </summary>
+        private TimeSpan averageLatency;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="CircuitBreaker"/> class.
@@ -138,6 +153,8 @@ namespace ReliabilityPatterns
         /// </returns>
         public TResult Execute<TResult>(Func<TResult> operation)
         {
+            // Start the latency timer.
+
             // Check if the circuit is already open.
             if (this.State == CircuitBreakerState.Open)
             {
