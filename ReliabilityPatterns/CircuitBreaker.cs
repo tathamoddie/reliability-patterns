@@ -7,13 +7,13 @@
 // </summary>
 // -----------------------------------------------------------------------------
 
-namespace ReliabilityPatterns
+namespace CircuitBreaker
 {
     using System;
     using System.Threading;
     using System.Timers;
 
-    using ReliabilityPatterns.Properties;
+    using Properties;
 
     using Timer = System.Timers.Timer;
 
@@ -154,6 +154,7 @@ namespace ReliabilityPatterns
         public TResult Execute<TResult>(Func<TResult> operation)
         {
             // Start the latency timer.
+
 
             // Check if the circuit is already open.
             if (this.State == CircuitBreakerState.Open)

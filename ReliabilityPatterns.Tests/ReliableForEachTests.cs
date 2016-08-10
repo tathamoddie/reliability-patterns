@@ -13,6 +13,8 @@ namespace ReliabilityPatterns.Tests
     using System.Collections.Generic;
     using System.Linq;
 
+    using CircuitBreaker;
+
     using NUnit.Framework;
 
     using ReliabilityPatterns;

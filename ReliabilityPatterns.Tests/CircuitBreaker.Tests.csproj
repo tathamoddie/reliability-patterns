@@ -62,9 +62,9 @@
     <Compile Include="RetryExtensionsTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ReliabilityPatterns\ReliabilityPatterns.csproj">
+    <ProjectReference Include="..\ReliabilityPatterns\CircuitBreaker.csproj">
       <Project>{017F5933-88BD-4FF3-A62E-7E4838CEBC47}</Project>
-      <Name>ReliabilityPatterns</Name>
+      <Name>CircuitBreaker</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

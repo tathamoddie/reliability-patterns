@@ -7,7 +7,7 @@
 // </summary>
 // -----------------------------------------------------------------------------
 
-namespace ReliabilityPatterns
+namespace CircuitBreaker
 {
     using System;
     using System.Collections.Generic;

@@ -7,7 +7,7 @@
 // </summary>
 // -----------------------------------------------------------------------------
 
-namespace ReliabilityPatterns
+namespace CircuitBreaker
 {
     /// <summary>
     ///     The circuit breaker state.

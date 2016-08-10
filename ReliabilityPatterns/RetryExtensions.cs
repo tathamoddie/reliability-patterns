@@ -7,14 +7,14 @@
 // </summary>
 // -----------------------------------------------------------------------------
 
-namespace ReliabilityPatterns
+namespace CircuitBreaker
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading;
 
-    using ReliabilityPatterns.Properties;
+    using Properties;
 
     /// <summary>
     ///     The retry extensions.

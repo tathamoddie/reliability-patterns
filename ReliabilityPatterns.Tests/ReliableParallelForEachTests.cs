@@ -15,6 +15,8 @@ namespace ReliabilityPatterns.Tests
     using System.Threading;
     using System.Threading.Tasks;
 
+    using CircuitBreaker;
+
     using NUnit.Framework;
 
     using ReliabilityPatterns;

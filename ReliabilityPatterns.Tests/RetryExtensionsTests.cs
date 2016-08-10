@@ -12,6 +12,8 @@ namespace ReliabilityPatterns.Tests
     using System;
     using System.Linq;
 
+    using CircuitBreaker;
+
     using NUnit.Framework;
 
     using ReliabilityPatterns;
